@@ -45,9 +45,7 @@ function App() {
   const [query, setQuery] = useState("");
   const [academyAuthenticated, setAcademyAuthenticated] = useState(!desktop);
   const [authenticationReady, setAuthenticationReady] = useState(!desktop);
-  const [view, setView] = useState<View>(
-    desktop ? "web-view" : "dashboard",
-  );
+  const [view, setView] = useState<View>(desktop ? "web-view" : "dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [discordOpenError, setDiscordOpenError] = useState(false);
   const { courses, syncing, error, retry } = useCourses();
@@ -217,7 +215,9 @@ function App() {
                 </InputGroupAddon>
                 {showHints && (
                   <InputGroupAddon align="inline-end">
-                    <Kbd className="border bg-background text-foreground">S</Kbd>
+                    <Kbd className="border bg-background text-foreground">
+                      S
+                    </Kbd>
                   </InputGroupAddon>
                 )}
               </InputGroup>

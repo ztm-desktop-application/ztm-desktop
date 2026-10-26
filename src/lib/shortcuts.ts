@@ -16,12 +16,18 @@ const MODIFIER_KEYS: Record<ShortcutModifier, string> = {
 };
 
 /** Whether the event is the modifier key itself being pressed or released. */
-export function isModifierKey(event: KeyboardEvent, modifier: ShortcutModifier) {
+export function isModifierKey(
+  event: KeyboardEvent,
+  modifier: ShortcutModifier,
+) {
   return event.key === MODIFIER_KEYS[modifier];
 }
 
 /** Whether the modifier is held with no other modifiers, so e.g. Ctrl+Alt+1 is ignored. */
-export function hasOnlyModifier(event: KeyboardEvent, modifier: ShortcutModifier) {
+export function hasOnlyModifier(
+  event: KeyboardEvent,
+  modifier: ShortcutModifier,
+) {
   return (
     event.altKey === (modifier === "alt") &&
     event.ctrlKey === (modifier === "ctrl") &&

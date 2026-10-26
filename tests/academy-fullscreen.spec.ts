@@ -166,9 +166,7 @@ for (const savedPaused of [false, true]) {
       ).__ZTM_DESKTOP_SAVE_SESSION__();
     }, savedPaused);
 
-    await page.goto(
-      "https://academy.zerotomastery.io/courses/enrolled/697434",
-    );
+    await page.goto("https://academy.zerotomastery.io/courses/enrolled/697434");
     await expect(page).toHaveURL(lessonUrl);
 
     const restored = await page.evaluate((initiallyPaused) => {
@@ -262,7 +260,7 @@ test("media inside a player frame participates in fullscreen session capture", a
   // exit must actively ask the frame for its exact current value rather than
   // returning the last periodic checkpoint above.
   await player.locator("video").evaluate((video) => {
-    video.currentTime = 79.75;
+    (video as HTMLVideoElement).currentTime = 79.75;
   });
   await page.evaluate(() =>
     (
@@ -420,7 +418,9 @@ test("the embedded course overview normalizes only hard-coded neutral surfaces",
   );
 });
 
-test("the Academy dashboard follows the app light palette", async ({ page }) => {
+test("the Academy dashboard follows the app light palette", async ({
+  page,
+}) => {
   await page.goto("https://academy.zerotomastery.io/?embedded");
   await page.evaluate(() => {
     (

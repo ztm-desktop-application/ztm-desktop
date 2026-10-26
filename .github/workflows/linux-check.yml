@@ -1,4 +1,4 @@
-name: Linux check
+name: CI
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
     branches: [main]
 
 jobs:
-  check:
+  frontend:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -16,14 +16,33 @@ jobs:
           node-version: 22
           cache: npm
 
+      - run: npm ci
+      - run: npm run format:check
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run build
+      - run: node --test tests/academy-init.test.mjs
+
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - run: cargo fmt --manifest-path src-tauri/Cargo.toml --check
 
       - name: Install Tauri system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install --yes libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
-      - run: npm ci
-      - run: npm run build
-      - run: cargo check --manifest-path src-tauri/Cargo.toml --all-targets
-      - run: cargo test --manifest-path src-tauri/Cargo.toml
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - run: cargo check --manifest-path src-tauri/Cargo.toml --all-targets --locked
+      - run: cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets --locked -- -D warnings
+      - run: cargo test --manifest-path src-tauri/Cargo.toml --locked

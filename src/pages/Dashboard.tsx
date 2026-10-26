@@ -56,6 +56,7 @@ function Dashboard({
 }: DashboardProps) {
   const [errorDialogOpen, setErrorDialogOpen] = useState(true);
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- TODO: refactor dialog reset separately from the lint rollout.
     if (error && !syncing) setErrorDialogOpen(true);
   }, [error, syncing]);
   const visibleCourses = courses.filter((course) =>
@@ -132,10 +133,14 @@ function Dashboard({
             description={
               error === "desktop-only" ? (
                 <>
-                  Course loading is only available in the ZTM desktop app.
-                  Open the desktop app to continue.
+                  Course loading is only available in the ZTM desktop app. Open
+                  the desktop app to continue.
                   {import.meta.env.DEV && (
-                    <> For development, run npm run tauri dev and use the desktop window, not the browser preview.</>
+                    <>
+                      {" "}
+                      For development, run npm run tauri dev and use the desktop
+                      window, not the browser preview.
+                    </>
                   )}
                 </>
               ) : (
@@ -152,7 +157,7 @@ function Dashboard({
       )}
       {courses.length > 0 && visibleCourses.length === 0 && (
         <p className="mt-4 text-muted-foreground [overflow-wrap:anywhere]">
-          No courses match "{filter.trim()}".
+          No courses match &quot;{filter.trim()}&quot;.
         </p>
       )}
       {visibleCourses.length > 0 && (

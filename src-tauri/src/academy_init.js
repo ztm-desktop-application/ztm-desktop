@@ -13,7 +13,8 @@
     if (!session || session.mediaTime == null) return;
     const apply = () => {
       media.currentTime = session.mediaTime;
-      if (session.playbackRate != null) media.playbackRate = session.playbackRate;
+      if (session.playbackRate != null)
+        media.playbackRate = session.playbackRate;
       if (session.mediaPaused === false) media.play().catch(() => {});
       else if (session.mediaPaused === true) media.pause();
     };
@@ -135,11 +136,8 @@
   };
 
   const SITE_NAVIGATION = ".ztm-sidebar, .ztm-sidebar-links";
-  const LESSON_NAV = 'div.nav:has(a[href="/"] img[alt="school logo"])';
-  const HOME_LOGO =
-    'img[alt="school logo"], img[src*="ztm-logo-academy.svg"]';
-  const COURSE_BACK =
-    'a.nav-icon-back[aria-label="Back to course curriculum"]';
+  const HOME_LOGO = 'img[alt="school logo"], img[src*="ztm-logo-academy.svg"]';
+  const COURSE_BACK = 'a.nav-icon-back[aria-label="Back to course curriculum"]';
   const STYLE_ID = "ztm-desktop-app-style";
   const THEME_KEY = __ZTM_THEME_STORAGE_KEY__;
   const isFullscreenView = window.__ZTM_DESKTOP_VIEW__ === "fullscreen";
@@ -200,7 +198,7 @@
     const channels = rgbChannels(value);
     return Boolean(
       channels?.every((channel) => channel <= 80) &&
-        Math.max(...channels) - Math.min(...channels) <= 18,
+      Math.max(...channels) - Math.min(...channels) <= 18,
     );
   }
 
@@ -603,10 +601,7 @@
 
   function sendFrameRestore(target) {
     if (!restore || !target) return;
-    target.postMessage(
-      { type: MEDIA_RESTORE_MESSAGE, session: restore },
-      "*",
-    );
+    target.postMessage({ type: MEDIA_RESTORE_MESSAGE, session: restore }, "*");
   }
 
   window.addEventListener("message", (event) => {

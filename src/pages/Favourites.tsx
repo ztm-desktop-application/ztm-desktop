@@ -39,7 +39,7 @@ function Favourites({
       )}
       {favouriteCourses.length > 0 && visibleCourses.length === 0 && (
         <p className="mt-4 text-muted-foreground [overflow-wrap:anywhere]">
-          No courses match "{filter.trim()}".
+          No courses match &quot;{filter.trim()}&quot;.
         </p>
       )}
       {visibleCourses.length > 0 && (

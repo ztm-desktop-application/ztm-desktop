@@ -62,7 +62,11 @@ export function WebView({
               Web View is only available in the ZTM desktop app. Open the
               desktop app to continue.
               {import.meta.env.DEV && (
-                <> For development, run npm run tauri dev and use the desktop window, not the browser preview.</>
+                <>
+                  {" "}
+                  For development, run npm run tauri dev and use the desktop
+                  window, not the browser preview.
+                </>
               )}
             </>
           )

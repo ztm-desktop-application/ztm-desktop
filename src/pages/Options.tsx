@@ -105,8 +105,8 @@ export default function Options({
             <FieldContent>
               <FieldLabel htmlFor="open-embedded">The app (default)</FieldLabel>
               <FieldDescription>
-                Courses load in the Web View, next to the app's sidebar. Linux
-                opens courses in a separate window.
+                Courses load in the Web View, next to the app&apos;s sidebar.
+                Linux opens courses in a separate window.
               </FieldDescription>
             </FieldContent>
           </Field>

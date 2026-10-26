@@ -19,6 +19,7 @@ export function useShortcuts(
   const [showHints, setShowHints] = useState(false);
   // A ref keeps the listeners attached while the handlers change every render.
   const handlersRef = useRef(handlers);
+  // eslint-disable-next-line react-hooks/refs -- TODO: migrate latest-handler synchronization separately from the lint rollout.
   handlersRef.current = handlers;
 
   useEffect(() => {

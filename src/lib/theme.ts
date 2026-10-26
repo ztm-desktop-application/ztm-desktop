@@ -25,8 +25,8 @@ export async function applyTheme(theme: Theme, resetWebView = false) {
   document.documentElement.classList.toggle("scheme-dark", theme === "dark");
   document.documentElement.classList.toggle("scheme-light", theme === "light");
   if (isTauri()) {
-    await invoke("set_web_view_theme", { theme, reset: resetWebView }).catch((error) =>
-      console.error("Could not apply theme to Academy views", error),
+    await invoke("set_web_view_theme", { theme, reset: resetWebView }).catch(
+      (error) => console.error("Could not apply theme to Academy views", error),
     );
   }
 }

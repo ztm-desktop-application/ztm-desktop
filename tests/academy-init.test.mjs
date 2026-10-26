@@ -149,7 +149,10 @@ test("initialization survives running before the document element exists", () =>
   const runtime = runAcademyScript("fullscreen", null, [], false);
 
   assert.equal(runtime.styles.size, 0);
-  assert.equal(typeof runtime.documentListeners.get("DOMContentLoaded"), "function");
+  assert.equal(
+    typeof runtime.documentListeners.get("DOMContentLoaded"),
+    "function",
+  );
 
   runtime.document.documentElement = {
     appendChild: (element) => runtime.styles.set(element.id, element),
@@ -265,10 +268,7 @@ test("a live theme change is retained for the webview reset reload", () => {
 
   runtime.window.__ZTM_DESKTOP_SET_THEME__("light");
 
-  assert.equal(
-    runtime.window.sessionStorage.getItem(themeStorageKey),
-    "light",
-  );
+  assert.equal(runtime.window.sessionStorage.getItem(themeStorageKey), "light");
 });
 
 test("course overview detection supports every enrolled course identifier", () => {
@@ -556,7 +556,7 @@ test("a URL-only fullscreen fallback retains the durable playback checkpoint", (
     play: () => Promise.resolve(),
   };
   const progress = JSON.stringify({ "course:697434": saved });
-  const runtime = runAcademyScript(
+  runAcademyScript(
     "embedded",
     fallback,
     [],
@@ -578,10 +578,7 @@ test("only course-content webviews initialize the progress relay in every frame"
     "utf8",
   );
 
-  assert.equal(
-    rust.match(/initialization_script_for_all_frames/g)?.length,
-    3,
-  );
+  assert.equal(rust.match(/initialization_script_for_all_frames/g)?.length, 3);
   assert.match(
     rust,
     /if close_on_authentication\s*\{\s*builder\s*\}\s*else\s*\{\s*builder\.initialization_script_for_all_frames/,

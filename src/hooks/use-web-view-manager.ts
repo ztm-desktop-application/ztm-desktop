@@ -86,10 +86,13 @@ export function useWebViewManager({
   const [retryAttempt, setRetryAttempt] = useState(0);
   // Read when the web view is shown so opening a course doesn't create it twice.
   const requestRef = useRef(request);
+  // eslint-disable-next-line react-hooks/refs -- TODO: migrate latest-value synchronization separately from the lint rollout.
   requestRef.current = request;
   const sidebarTooltipOpenRef = useRef(sidebarTooltipOpen);
+  // eslint-disable-next-line react-hooks/refs -- TODO: migrate latest-value synchronization separately from the lint rollout.
   sidebarTooltipOpenRef.current = sidebarTooltipOpen;
   const authCheckRef = useRef(authCheck);
+  // eslint-disable-next-line react-hooks/refs -- TODO: migrate latest-value synchronization separately from the lint rollout.
   authCheckRef.current = authCheck;
   // Set once a show succeeds: only that page can be resumed without its URL.
   const loadedRequestId = useRef<number | null>(null);
@@ -142,6 +145,7 @@ export function useWebViewManager({
 
   // Outside the desktop app the web view can never open, so explain why.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- TODO: refactor dialog reset separately from the lint rollout.
     if (active && !desktop) setErrorDialogOpen(true);
   }, [active, desktop]);
 
@@ -162,6 +166,7 @@ export function useWebViewManager({
     window.addEventListener("resize", sync);
 
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps -- This is a mutable cancellation counter, not a DOM ref to capture at setup.
       ++openGeneration.current;
       scheduledRequestId.current = null;
       observer.disconnect();
@@ -177,6 +182,7 @@ export function useWebViewManager({
       // lets the replacement setup cancel that probe without masking a real
       // component unmount.
       queueMicrotask(() => {
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- Read the latest counter deliberately to detect a replacement setup.
         if (mountGeneration.current === generation && isTauri()) {
           enqueue("dispose_web_view");
         }
@@ -200,13 +206,17 @@ export function useWebViewManager({
     const generation = show(container, request);
     return () => {
       if (generation === openGeneration.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- Read the latest counter deliberately to avoid cancelling a newer request.
         ++openGeneration.current;
         scheduledRequestId.current = null;
       }
     };
   }, [active, request, show]);
 
-  const retry = useCallback(() => setRetryAttempt((attempt) => attempt + 1), []);
+  const retry = useCallback(
+    () => setRetryAttempt((attempt) => attempt + 1),
+    [],
+  );
 
   return {
     containerRef,
